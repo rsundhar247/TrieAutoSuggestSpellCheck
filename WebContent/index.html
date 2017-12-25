@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Trie - Auto Suggest & Spell Check</title>
+<link rel="stylesheet" href="" type="text/css">
+<script src="js/library/jquery-1.11.1.min.js"></script>
+<style>
+*{padding:0; margin: 0;}
+html,body {width: 100%; height: 100%;}
+header {width: 100%;}
+header {font-size: 1em;padding: 2em; text-align: center; background-color:#cde2ff;}
+footer {text-align: center; }
+footer p{margin-bottom: 0.25em;}
+.container {max-width: 80%;margin: 0 auto; overflow: hidden; text-align: center;}
+.container .inputArea,.addArea,.deleteArea {overflow :hidden;}
+#searchBox2 li {
+	border: 1px solid #eee;
+    padding: 0.51%;
+    text-align: left;
+    cursor: pointer;
+}
+#searchBox2 li:hover {border-color:#ccc;}
+/*.container > div { margin-left: 40%;}*/
+.container label {
+	cursor: pointer;
+    display: block;
+    margin: 10px 0;
+    font-size: 1.5em;
+    text-align: left;
+    margin-left: 25%;
+}
+.searchArea{
+	margin-bottom: 5%;
+	position: relative;
+}
+textarea {width:48%;padding:1%; height: 100px;resize: none;}
+textarea:active{outline: none;}
+ul li {list-style: none;}
+.btn { font-size: 0.875em;
+    padding: 0.5em;
+    background-color: #3973c5;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 0 5px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+	float: right;
+    margin-right: 25%;
+    display: block;
+}
+.btn:hover {
+	background-color: #4d4c77;
+}
+.container input {width: 48%; padding: 1%;}
+.container ul {
+	width: 50%;
+    margin-left: 25%;
+    /*position: absolute;
+    z-index: 9999;
+    background-color: #fff;*/
+}
+    .insInpArea,.delBoxArea{
+    	margin-bottom: 5px;
+    }
+    .messageArea {
+    	float: left;
+    	margin-left: 25%;
+    	font-weight: bold;
+    	font-style: italic;
+    }
+    .messageArea.success{
+    	color: #00ca00;
+    }
+    .messageArea.err{
+    	color: #ff1d1d;
+    }
+     .wrongWordsArea p{
+	    text-align: left;
+	    width: 50%;
+	    margin-left: 25%;
+	    margin-bottom: 0.5%;
+    }
+    p#pHead {font-weight: bold;}
+    .wrongWordsArea ul {display: block; overflow: hidden; margin-bottom: 0.1%;}
+    .wrongWordsArea li {
+		display: inline-block;
+	   float: left;
+	   margin-right: 5%;
+	   width: 20%;
+	   text-align: left;
+    }
+    	
+     
+       .wrongWordsArea li a {text-decoration: none; color: #000;}
+       .wrongWordsArea li a:hover { text-decoration: underline;}
+       ul#header {margin-bottom: 0.5%;}
+       ul#header li {font-weight: bold;}
+</style>
+</head>
+<body>
+<header>
+	<h1>Trie - Auto Suggest & Spell Check</h1>
+</header>
+<section class="container">
+	<div class="inputArea">
+		<label for="txtarea1">Spell Check</label>
+		<div class="txtarea"><textarea id="txtarea1" placeholder="Type a sentence and click Submit"></textarea></div>
+		<button class="btn" onclick="SpellCheck()">Submit</button>
+	</div>
+	<div class="wrongWordsArea" id="wrongWordsArea" style="display:none">
+		<label for="wrongWordsArea">Error Words</label>
+		
+	</div>
+	
+	<div class="searchArea" id="searchArea">
+		<label for="searchArea">Auto Suggest</label>
+		<div class="srchInpArea"><input type="text" id="searchBox1" class="searchBox" value="" onkeyup="AutoSuggest()" placeholder="Start typing to get suggesstions.."/></div>
+		<ul id="searchBox2"></ul>
+	</div>
+
+	<div class="addArea" id="addArea">
+		
+		<label for="insertBox">Add to Trie</label>
+		<div class="insInpArea"><input type="text" id="insertBox" class="insertBox" value="" placeholder="Enter the word that needs to be added.."/></div>
+		<div class="messageArea" id="addMsg"><span id="trieAdd"></span></div>
+		<button class="btn" onclick="addToTrie(document.getElementById('insertBox').value)">Add</button>
+	</div>
+	
+	<div class="deleteArea" id="deleteArea">
+		<label for="deleteBox">Delete from Trie</label>
+		<div class="delBoxArea"><input type="text" id="deleteBox" class="deleteBox" value="" placeholder="Enter the word that needs to be deleted.."/></div>
+		<div class="messageArea" id="removeMsg"><span id="trieDelete"></span></div>
+		<button class="btn" onclick="deleteFromTrie()">Delete</button>
+	</div>
+</section>
+<footer>
+<p>Copyrights &copy; 2017</p>
+<p>
+	<a href="mailto:rsundhar247@gmail.com">Email Me</a> 
+</p>
+</footer>
+
+<script src="js/trie.js"></script>
+<script>
+$(document).ready(function(){
+	$('#wrongWordsArea ul li:first-child a').on("click", function(){
+				var text=$(this).html();
+				addToTrie(text);	
+	});
+});
+</script>
+</body>
+</html>
